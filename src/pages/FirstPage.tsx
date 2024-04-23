@@ -43,11 +43,12 @@ const FirstPage: React.FC = () =>{
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
+        console.log(event.timeStamp);
     };
     return(
         <>
         <ResponsiveAppBar />
-        <Box sx={{ marginX:'2rem' }}>
+        <Box sx={{ marginX:'2rem', marginTop:"2rem"}}>
             <Tabs
                 value={value}
                 onChange={handleChange}

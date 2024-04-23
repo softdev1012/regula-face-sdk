@@ -1,38 +1,42 @@
 import React from 'react';
-import { Box, Grid, Typography } from '@mui/material';
-import MuiAvatar from '@mui/material/Avatar';
+import { Box, Grid } from '@mui/material';
+import ImageUploader from './ImageUploader';
+import { faceDetectApi } from '../services/FaceService';
 
 
 const FaceDetection: React.FC = () => {
-  return (
-    <Box
-        sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "start",
-        }}
-    >
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-                <MuiAvatar
-                    sx={{
-                        marginBottom: 1,
-                        width: '400px',
-                        height: '400px',
-                        borderRadius: 0, // Set borderRadius to 0 for square corners
-                    }}
-                    alt="Avatar Change"
-                />
-            </Grid>
-        </Grid>
-        <Grid width={20}></Grid>
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
 
+    const handleFaceDetection = (file: File) => {
+        faceDetectApi(file, () => {})
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        debugger;
+    }
+    return (
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "start",
+            }}
+        >
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <ImageUploader height={400} onImageChange={handleFaceDetection} />
+                </Grid>
             </Grid>
-        </Grid>
-    </Box>
-  );
+            <Grid width={20}></Grid>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+
+                </Grid>
+            </Grid>
+        </Box>
+    );
 };
 
 export default FaceDetection;
