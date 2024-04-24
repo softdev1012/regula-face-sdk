@@ -22,7 +22,6 @@ const FaceMatching: React.FC = () => {
     const processImage = (file: File, detect: any, setFile: any) => {
         const image = new Image();
         image.src = URL.createObjectURL(file);
-        debugger;
         image.onload = () => {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -33,9 +32,9 @@ const FaceMatching: React.FC = () => {
                 if (detect.faces) {
                     for (let i in detect.faces) {
                         const color = getBorderColor(detect.imageIndex, detect.faces[i].faceIndex);
-                        drawRect(ctx, detect.faces[i].roi[0], detect.faces[i].roi[1], detect.faces[i].roi[2], detect.faces[i].roi[3], color);
+                        drawRect(ctx, detect.faces[i].roi[0], detect.faces[i].roi[1], detect.faces[i].roi[2], detect.faces[i].roi[3], color, image.width/250);
                         for (var j in detect.faces[i].landmarks) {
-                            drawPoint(ctx, detect.faces[i].landmarks[j][0], detect.faces[i].landmarks[j][1], color);
+                            drawPoint(ctx, detect.faces[i].landmarks[j][0], detect.faces[i].landmarks[j][1], color, image.width/270);
                         }
                     }
                 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import ImageUploader from './common/ImageUploader';
 import { faceDetectApi } from '../services/FaceService';
-import { colorList, drawPoint, drawRect, faceDetectApiMock } from '../services';
+import { colorList, drawPoint, drawRect, faceDetectApiMock, faceQualityApiMock } from '../services';
 import DetectResult from './FaceDetection/DetectResult';
 
 interface ICrops {
@@ -31,9 +31,9 @@ const FaceImageQuality: React.FC = () => {
                 ctx.drawImage(image, 0, 0);
                 for (let i in detect) {
                     const ic = parseInt(i);
-                    drawRect(ctx, detect[i].roi[0], detect[i].roi[1], detect[i].roi[2], detect[i].roi[3], colorList[ic]);
+                    drawRect(ctx, detect[i].roi[0], detect[i].roi[1], detect[i].roi[2], detect[i].roi[3], colorList[ic], image.width/250);
                     for (var j in detect[i].landmarks) {
-                        drawPoint(ctx, detect[i].landmarks[j][0], detect[i].landmarks[j][1], colorList[ic]);
+                        drawPoint(ctx, detect[i].landmarks[j][0], detect[i].landmarks[j][1], colorList[ic], image.width/270);
                     }
                 }
                 const dataURL = canvas.toDataURL('image/jpeg');
@@ -59,7 +59,7 @@ const FaceImageQuality: React.FC = () => {
         //         console.log(err);
         //     });
         if (!imgFile) return;
-        const res = faceDetectApiMock();
+        const res = faceQualityApiMock();
         if (res && res.results && res.results.detections) {
             setCrops(res.results.detections);
         }

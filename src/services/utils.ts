@@ -12,17 +12,17 @@ export const colorList = [
     '#2fff00',
 ];
 
-export const drawRect = (ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, color: string) => {
+export const drawRect = (ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, color: string, depth: number) => {
     ctx.beginPath();
     ctx.rect(x, y, width, height);
     ctx.strokeStyle = color;
-    ctx.lineWidth = 5;
+    ctx.lineWidth = depth;
     ctx.stroke();
 }
   
-export const drawPoint = (ctx: CanvasRenderingContext2D, x: number, y: number, color: string) =>{
+export const drawPoint = (ctx: CanvasRenderingContext2D, x: number, y: number, color: string, depth: number) =>{
     ctx.beginPath();
-    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.arc(x, y, depth, 0, 2 * Math.PI);
     ctx.fillStyle = color;
     ctx.fill();
 }
