@@ -14,7 +14,7 @@ interface ICrops {
     rotationAngle?: number,
 }
 
-const FaceDetection: React.FC = () => {
+const FaceImageQuality: React.FC = () => {
     const [crops, setCrops] = useState<ICrops[]>([]);
     const [resultImage, setResultImage] = useState("");
     const [imgFile, setImgFile] = useState<File>();
@@ -85,4 +85,4 @@ const FaceDetection: React.FC = () => {
     );
 };
 
-export default FaceDetection;
+export default FaceImageQuality;

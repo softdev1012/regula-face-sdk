@@ -10,7 +10,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import LogoSVG from '../components/LogoSVG';
+import LogoSVG from '../components/common/LogoSVG';
 
 const pages = ['Products', 'Blog'];
 const settings = ['Profile', 'Logout'];

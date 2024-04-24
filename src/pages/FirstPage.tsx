@@ -4,6 +4,8 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import ResponsiveAppBar from '../layouts/ResponsiveAppBar';
 import FaceDetection from '../components/FaceDetection';
+import FaceImageQuality from '../components/FaceImageQuality';
+import FaceMatching from '../components/FaceMatching';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -64,10 +66,10 @@ const FirstPage: React.FC = () =>{
                 <FaceDetection />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                Item Two
+              <FaceMatching />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
-                Item Three
+              <FaceImageQuality />
             </CustomTabPanel>
         </Box>
         </>
