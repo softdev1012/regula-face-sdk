@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import ImageUploader from './common/ImageUploader';
 import { faceDetectApi } from '../services/FaceService';
-import { colorList, drawPoint, drawRect, faceDetectApiMock, faceQualityApiMock } from '../services';
-import DetectResult from './FaceDetection/DetectResult';
+import { colorList, drawPoint, drawRect, faceQualityApiMock } from '../services';
+import QualityResult from './FaceQuality/QualityResult';
 
 interface ICrops {
     crop?: string,
@@ -75,8 +75,8 @@ const FaceImageQuality: React.FC = () => {
             <Grid item xs={12} md={6}>
                 <Grid container spacing={2} sx={{marginTop:2}}>
                     {crops?.map((row: ICrops, index: number) => (
-                        <Grid item xs={12}>
-                            <DetectResult data={row} _id={index}/>
+                        <Grid item xs={12} key={index}>
+                            <QualityResult data={row} />
                         </Grid>
                     ))}
                 </Grid>

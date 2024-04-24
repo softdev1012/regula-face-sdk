@@ -75,7 +75,7 @@ const FaceDetection: React.FC = () => {
             <Grid item xs={12} md={6}>
                 <Grid container spacing={2} sx={{marginTop:2}}>
                     {crops?.map((row: ICrops, index: number) => (
-                        <Grid item xs={12}>
+                        <Grid item xs={12} key={index}>
                             <DetectResult data={row} _id={index}/>
                         </Grid>
                     ))}

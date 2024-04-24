@@ -44,14 +44,14 @@ const DetectResult: React.FC<DetectResultProps> = ({_id, data}) => {
                     <MuiAvatar 
                         sx={{
                             width: "auto",
-                            height: 100,
+                            height: 130,
                             borderRadius: 0, // Set borderRadius to 0 for square corners
                         }}
                         style={{ border: `3px solid ${colorList[_id as number]}`, display: 'inline-block' }}
                         alt="Select Image"
                         src={ imageDataToDataURL(data?.crop) }
                     />
-                    <Grid container spacing={0}>
+                    <Grid container spacing={0} sx={{marginTop:1}}>
                         <Grid item xs={5}>
                             <Typography variant='body1' align='left' marginLeft={2}>Age</Typography>
                         </Grid>
@@ -64,7 +64,7 @@ const DetectResult: React.FC<DetectResultProps> = ({_id, data}) => {
                         <Grid item xs={7}>
                             <Typography variant='body1' align='right' marginLeft={2}>{getDetailValueStr(data.attributes.details, 'Emotion')}</Typography>
                         </Grid>
-                        <Grid item xs={12} sx={{marginTop:1, marginLeft:2,  textAlign: 'left'}} >
+                        <Grid item xs={12} sx={{marginTop:3, marginLeft:2,  textAlign: 'left'}} >
                             <Button sx={{textTransform:'none'}} endIcon={btnState?<KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />} onClick={toggleButton}>
                                 {btnState?"Hide all attributes" : "Show all attributes"}
                             </Button>
