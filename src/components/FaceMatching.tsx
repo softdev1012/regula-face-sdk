@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import ImageUploader from './common/ImageUploader';
-import { faceDetectApi } from '../services/FaceService';
-import { colorList, drawPoint, drawRect, faceMatchingApiMock } from '../services';
+import { colorList, drawPoint, drawRect, faceMatchingApi } from '../services';
 import MatchingResult from './FaceMatching/MatchingResult';
 
 const FaceMatching: React.FC = () => {
@@ -10,8 +9,8 @@ const FaceMatching: React.FC = () => {
     const [faces, setFaces] = useState<any>();
     const [resultImage1, setResultImage1] = useState("");
     const [resultImage2, setResultImage2] = useState("");
-    const [imgFile1, setImgFile1] = useState<File>();
-    const [imgFile2, setImgFile2] = useState<File>();
+    const [imgStr1, setImgStr1] = useState("");
+    const [imgStr2, setImgStr2] = useState("");
 
     const getBorderColor = (idx: number, faceIdx: number) : string => {
         if (!faces || !faces[0] || !faces[0].faces) return colorList[faceIdx];
@@ -19,9 +18,9 @@ const FaceMatching: React.FC = () => {
         return colorList[_id];
     }
 
-    const processImage = (file: File, detect: any, setFile: any) => {
+    const processImage = (imgStr: string, detect: any, setFile: any) => {
         const image = new Image();
-        image.src = URL.createObjectURL(file);
+        image.src = imgStr;
         image.onload = () => {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -47,35 +46,31 @@ const FaceMatching: React.FC = () => {
 
     useEffect(() => {
         handleFaceDetection();
-    }, [imgFile1, imgFile2]);
+    }, [imgStr1, imgStr2]);
 
-    const handleImage1Change = (file: File) => {
-        setImgFile1(file);
+    const handleImage1Change = (imgStr: string) => {
+        setImgStr1(imgStr);
     }
-    const handleImage2Change = (file: File) => {
-        setImgFile2(file);
+    const handleImage2Change = (imgStr: string) => {
+        setImgStr2(imgStr);
     }
 
     const handleFaceDetection = () => {
-        // faceDetectApi(file, () => {})
-        //     .then((response) => {
-        //         console.log(response);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
-        if (!imgFile1 || !imgFile2) return;
-        const res = faceMatchingApiMock();
-        if (res && res.results) {
-            setCrops(res.results);
-        }
-        if (res && res.detections) {
-            setFaces(res.detections);
-        }
-        processImage(imgFile1 as File, res.detections[0], setResultImage1);
-        processImage(imgFile2 as File, res.detections[1], setResultImage2);
-        //setResultImage()
-        
+        if (imgStr1.length < 2 || imgStr2.length < 2) return;
+        faceMatchingApi(imgStr1, imgStr2)
+        .then((res) => {
+            if (res && res.results) {
+                setCrops(res.results);
+            }
+            if (res && res.detections) {
+                setFaces(res.detections);
+            }
+            processImage(imgStr1, res.detections[0], setResultImage1);
+            processImage(imgStr2, res.detections[1], setResultImage2);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     }
     return (
         <Grid container spacing={0}>

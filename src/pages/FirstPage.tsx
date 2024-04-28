@@ -2,7 +2,7 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-// import ResponsiveAppBar from '../layouts/ResponsiveAppBar';
+import ResponsiveAppBar from '../layouts/ResponsiveAppBar';
 import FaceDetection from '../components/FaceDetection';
 import FaceImageQuality from '../components/FaceImageQuality';
 import FaceMatching from '../components/FaceMatching';
@@ -49,7 +49,7 @@ const FirstPage: React.FC = () =>{
     };
     return(
         <>
-        {/* <ResponsiveAppBar /> */}
+        <ResponsiveAppBar />
         <Box sx={{ marginX:'2rem', marginTop:"2rem"}}>
             <Tabs
                 value={value}

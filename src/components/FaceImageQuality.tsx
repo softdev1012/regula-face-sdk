@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import ImageUploader from './common/ImageUploader';
-import { faceDetectApi } from '../services/FaceService';
-import { colorList, drawPoint, drawRect, faceQualityApiMock } from '../services';
+import { colorList, drawPoint, drawRect, faceQualityApi} from '../services';
 import QualityResult from './FaceQuality/QualityResult';
 
 interface ICrops {
@@ -17,11 +16,11 @@ interface ICrops {
 const FaceImageQuality: React.FC = () => {
     const [crops, setCrops] = useState<ICrops[]>([]);
     const [resultImage, setResultImage] = useState("");
-    const [imgFile, setImgFile] = useState<File>();
+    const [imgFile, setImgFile] = useState("");
 
-    const processImage = (file: File, detect: any) => {
+    const processImage = (file: string, detect: any) => {
         const image = new Image();
-        image.src = URL.createObjectURL(file);
+        image.src = file;
         image.onload = () => {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -46,26 +45,22 @@ const FaceImageQuality: React.FC = () => {
         handleFaceDetection();
     }, [imgFile]);
 
-    const handleImageChange = (file: File) => {
+    const handleImageChange = (file: string) => {
         setImgFile(file);
     }
 
     const handleFaceDetection = () => {
-        // faceDetectApi(file, () => {})
-        //     .then((response) => {
-        //         console.log(response);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
-        if (!imgFile) return;
-        const res = faceQualityApiMock();
-        if (res && res.results && res.results.detections) {
-            setCrops(res.results.detections);
-        }
-        processImage(imgFile as File, res.results.detections);
-        //setResultImage()
-        
+        if (imgFile.length < 2) return;
+        faceQualityApi(imgFile)
+        .then((res) => {
+            if (res && res.results && res.results.detections) {
+                setCrops(res.results.detections);
+            }
+            processImage(imgFile, res.results.detections);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     }
     return (
         <Grid container spacing={0}>

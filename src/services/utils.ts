@@ -27,3 +27,16 @@ export const drawPoint = (ctx: CanvasRenderingContext2D, x: number, y: number, c
     ctx.fill();
 }
 
+export const convertFileToString = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+            resolve(reader.result as string);
+        };
+        reader.onerror = (error) => {
+            reject(error);
+        };
+    });
+};

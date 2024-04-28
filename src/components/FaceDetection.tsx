@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import ImageUploader from './common/ImageUploader';
 import { faceDetectApi } from '../services/FaceService';
-import { colorList, drawPoint, drawRect, faceDetectApiMock } from '../services';
+import { colorList, drawPoint, drawRect } from '../services';
 import DetectResult from './FaceDetection/DetectResult';
 
 interface ICrops {
@@ -17,11 +17,11 @@ interface ICrops {
 const FaceDetection: React.FC = () => {
     const [crops, setCrops] = useState<ICrops[]>([]);
     const [resultImage, setResultImage] = useState("");
-    const [imgFile, setImgFile] = useState<File>();
+    const [imgStr, setImgStr] = useState("");
 
-    const processImage = (file: File, detect: any) => {
+    const processImage = (imgStr: string, detect: any) => {
         const image = new Image();
-        image.src = URL.createObjectURL(file);
+        image.src = imgStr;
         image.onload = () => {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -44,28 +44,24 @@ const FaceDetection: React.FC = () => {
 
     useEffect(() => {
         handleFaceDetection();
-    }, [imgFile]);
+    }, [imgStr]);
 
-    const handleImageChange = (file: File) => {
-        setImgFile(file);
+    const handleImageChange = (image: string) => {
+        setImgStr(image);
     }
-
+    
     const handleFaceDetection = () => {
-        // faceDetectApi(file, () => {})
-        //     .then((response) => {
-        //         console.log(response);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
-        if (!imgFile) return;
-        const res = faceDetectApiMock();
-        if (res && res.results && res.results.detections) {
-            setCrops(res.results.detections);
-        }
-        processImage(imgFile as File, res.results.detections);
-        //setResultImage()
-        
+        if (imgStr.length < 2) return;
+        faceDetectApi(imgStr)
+        .then((res) => {
+            if (res && res.results && res.results.detections) {
+                setCrops(res.results.detections);
+            }
+            processImage(imgStr, res.results.detections);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     }
     return (
         <Grid container spacing={0}>

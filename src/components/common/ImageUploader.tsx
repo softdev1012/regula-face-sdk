@@ -2,6 +2,7 @@ import { Button, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import MuiAvatar from '@mui/material/Avatar';
 import UploadIcon from '@mui/icons-material/Upload';
+import { convertFileToString } from "../../services";
 interface ImageUploaderProps {
     _id?: string;
     width?: number;
@@ -18,9 +19,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({src, onImageChange}) => {
     const handleSelecImage = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFiles = event.target.files as FileList;
         const uploadFile = selectedFiles?.[0];
-        const imageUrl = URL.createObjectURL(uploadFile);
-        setSelectedImg(imageUrl);
-        onImageChange(uploadFile)
+        convertFileToString(uploadFile).then((data: string) => {
+            setSelectedImg(data);
+            onImageChange(data);
+        });
     }
 
     return (
